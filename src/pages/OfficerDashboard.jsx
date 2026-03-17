@@ -197,8 +197,46 @@ const OfficerDashboard = ({ activeUser, onUserChange, allCases = [], onUpdateSta
       <div className="grid-3">
         {/* Pending Queue */}
         <section className="card-luxe" style={{ display: 'flex', flexDirection: 'column', height: '650px' }}>
-          <h3 className="card-title"><ShieldCheck size={14} /> Pending Queue ({filteredCases.length})</h3>
-          <div className="scroll-glass" style={{ flex: 1 }}>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <h3 className="card-title" style={{ marginBottom: '1rem' }}><ShieldCheck size={14} /> Pending Queue ({filteredCases.length})</h3>
+            
+            {/* Inline Triage Search */}
+            <div style={{
+              background: 'var(--bg-app)',
+              border: '1px solid var(--border-glass)',
+              borderRadius: 'var(--radius-md)',
+              padding: '0.4rem 0.75rem',
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.6rem'
+            }}>
+              <Search size={14} color="var(--text-dim)" />
+              <input 
+                type="text" 
+                placeholder="Find applicant or ID..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ 
+                  background: 'none', 
+                  border: 'none', 
+                  outline: 'none', 
+                  color: 'var(--text-main)', 
+                  fontSize: '0.75rem', 
+                  width: '100%',
+                  fontFamily: 'inherit'
+                }} 
+              />
+              {searchTerm && (
+                <button 
+                  onClick={() => setSearchTerm('')}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)', display: 'flex' }}
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="scroll-glass" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingRight: '0.4rem' }}>
             {filteredCases.length === 0 ? (
               <div style={{
                 height: '100%', display: 'flex', flexDirection: 'column',

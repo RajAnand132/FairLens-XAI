@@ -1,0 +1,24 @@
+# XAI Loan Platform Task Tracker
+
+- [ ] Planning & Design
+  - [x] Create implementation plan
+  - [x] Create architecture flow diagram
+  - [x] Add new advanced features (Simulator, Next Best Offer, Multi-lingual, Chatbot)
+  - [x] Get user approval
+- [x] Project Setup
+  - [x] Initialize Vite React project
+  - [x] Install dependencies (Lucide React, Recharts, etc.)
+  - [x] Setup core CSS and design system (Glassmorphism, Dark mode, premium aesthetics)
+  - [ ] Add Native Multi-Lingual Dropdown for Explanations
+- [x] Frontend Implementation - Bank Officer Dashboard
+  - [x] Build detailed technical feature importance view
+  - [x] Implement Bias Alerts notifications
+  - [x] Build Portfolio-Level Bias Dashboard (Macro-level fairness metrics)
+  - [x] Implement AI "Second Opinion" Chatbot Interface
+- [ ] Backend/Mock API & Gemini Integration
+  - [ ] Create mock endpoints for prediction, SHAP (XAI), counterfactuals, and fairness audit
+  - [ ] Implement Gemini API integration wrapper for plain language explanations
+  - [x] Integrate Gemini Multimodal API to extract data from uploaded files
+- [x] Verification and Walkthrough
+  - [x] Test all user flows
+  - [x] Write walkthrough.md

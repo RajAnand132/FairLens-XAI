@@ -8,16 +8,16 @@ Submitted in Partial Fulfillment of the Requirements for the Course
 
 ---
 
-| | |
-|---|---|
-| **Project Title** | FairLens – Customer-Centric XAI Loan Assessment Platform |
-| **Team Members** | [Your Name(s)] |
-| **Roll Number(s)** | [Your Roll No.] |
-| **Department** | [Your Department] |
-| **Institution** | [Your College Name] |
-| **Supervisor** | [Supervisor Name] |
-| **Academic Year** | 2025–2026 |
-| **Submission Date** | March 2026 |
+|                     |                                                          |
+| ------------------- | -------------------------------------------------------- |
+| **Project Title**   | FairLens – Customer-Centric XAI Loan Assessment Platform |
+| **Team Members**    | [Your Name(s)]                                           |
+| **Roll Number(s)**  | [Your Roll No.]                                          |
+| **Department**      | [Your Department]                                        |
+| **Institution**     | [Your College Name]                                      |
+| **Supervisor**      | [Supervisor Name]                                        |
+| **Academic Year**   | 2025–2026                                                |
+| **Submission Date** | March 2026                                               |
 
 ---
 
@@ -47,11 +47,13 @@ Submitted in Partial Fulfillment of the Requirements for the Course
 
 ## 1. Abstract
 
-Traditional loan approval systems are opaque black-box models that leave applicants without understanding of why their application was accepted or rejected. This lack of transparency creates mistrust, discourages reapplication, and may perpetuate systemic bias against demographic groups. **FairLens** is a full-stack web application prototype that addresses this gap by combining AI-driven loan decision logic with Explainable AI (XAI) principles, specifically SHAP (SHapley Additive exPlanations)-inspired factor analysis, and a Large Language Model (Google Gemini) to translate technical scores into empathetic, human-readable explanations.
+Traditional loan approval systems are opaque black-box models that leave applicants without understanding of why their application was accepted or rejected. This lack of transparency creates mistrust, discourages reapplication, and may perpetuate systemic bias against demographic groups. **FairLens** is a full-stack web application prototype that addresses this gap by combining AI-driven loan decision logic with Explainable AI (XAI) principles—specifically SHAP (SHapley Additive exPlanations)-inspired factor analysis—and a Large Language Model (Google Gemini) to translate technical scores into empathetic, actionable, and human-readable explanations.
 
-The platform serves two distinct user personas: **loan applicants** who receive a fairness-audited decision with an actionable improvement plan, and **bank officers** who access a technical bias analysis dashboard. The frontend is built using React 18 and Vite, styled with a custom glassmorphic design system, and integrates Google's Gemini 1.5 Flash API for natural-language generation. This report documents the system architecture, design decisions, implementation details, and evaluation of FairLens as a proof-of-concept for transparent, customer-centric AI lending.
+The platform's architecture is built around a dual-path data flow serving two distinct user personas. For **loan applicants**, the system evaluates core financial metrics (Debt-to-Income, Capital Stress, Credit Index) to generate a fairness-audited decision. This decision is visualized through an intuitive 'OutcomeVision' gauge, a real-time 'What-If' improvement simulator, and a Gemini-generated action plan, empowering users to actively improve their financial health. For **bank officers**, the architecture provides an institutional 'Command Center' featuring a dynamic pending case queue, a technical Bias Detection Dashboard with SHAP matrices, portfolio-level fairness scores, and an 'AI Second Opinion' chatbot for deep systemic auditing.
 
-**Keywords:** Explainable AI, XAI, SHAP, Loan Assessment, Fairness Auditing, React, Gemini API, Glassmorphism, Customer-Centric Design
+Developed using React 18 and Vite, and styled with a custom high-fidelity glassmorphic design system, FairLens operates as a responsive frontend prototype with robust mock services simulating complex ML backend interactions. The integration of Google's Gemini 1.5 Flash API enables advanced multimodal data extraction and natural-language generation. This report comprehensively documents the system architecture, data flow pipelines, UI/UX design decisions, and implementation details of FairLens, demonstrating a viable proof-of-concept for transparent, equitable, and customer-centric AI lending.
+
+**Keywords:** Explainable AI, XAI, SHAP, Loan Assessment, Fairness Auditing, React, Gemini API, Glassmorphism, Counterfactual Simulator, Customer-Centric Design
 
 ---
 
@@ -74,7 +76,7 @@ This project was developed as a React + Vite single-page application, entirely f
 Current loan approval systems suffer from three key deficiencies:
 
 **3.1 Lack of Transparency**
-Applicants are told *what* the decision is, but not *why*. This violates the "right to explanation" principle increasingly required by regulations like the EU's GDPR Article 22 and the US Equal Credit Opportunity Act.
+Applicants are told _what_ the decision is, but not _why_. This violates the "right to explanation" principle increasingly required by regulations like the EU's GDPR Article 22 and the US Equal Credit Opportunity Act.
 
 **3.2 No Actionable Feedback**
 Even when partial explanations are given (e.g., "low credit score"), applicants are not provided with a concrete, prioritized action plan — which specific factors to improve, by how much, and in what order.
@@ -112,25 +114,25 @@ The primary objectives of this project are:
 
 Ribeiro et al. (2016) introduced LIME, a technique that approximates complex model behavior locally with a simpler, interpretable model. Building on this, Lundberg and Lee (2017) proposed SHAP — grounded in cooperative game theory — which assigns each feature a contribution value (Shapley value) representing its marginal effect on the model output. SHAP has become the industry standard for post-hoc model explainability due to its mathematical consistency and human-readable output.
 
-**Reference:** Lundberg, S. M., & Lee, S.-I. (2017). *A unified approach to interpreting model predictions.* Advances in Neural Information Processing Systems, 30.
+**Reference:** Lundberg, S. M., & Lee, S.-I. (2017). _A unified approach to interpreting model predictions._ Advances in Neural Information Processing Systems, 30.
 
 ### 5.2 Fairness in Machine Learning
 
 Barocas and Hardt (2019) in "Fairness and Machine Learning" define several mathematical notions of algorithmic fairness including demographic parity, equalized odds, and calibration. They demonstrate that models trained on historical financial data systematically disadvantage protected groups. FairLens addresses this by including a fairness audit module that checks decision distributions across demographic segments.
 
-**Reference:** Barocas, S., Hardt, M., & Narayanan, A. (2019). *Fairness and Machine Learning.* fairmlbook.org.
+**Reference:** Barocas, S., Hardt, M., & Narayanan, A. (2019). _Fairness and Machine Learning._ fairmlbook.org.
 
 ### 5.3 Large Language Models for Explanation Generation
 
 Wei et al. (2022) showed that Large Language Models (LLMs) can generate coherent, contextually appropriate explanations through chain-of-thought prompting. Google's Gemini 1.5 Flash extends this capability with multimodal understanding, enabling the processing of document images (bank statements) in addition to structured text. FairLens leverages Gemini's structured JSON output mode to generate formatted, empathetic loan explanations.
 
-**Reference:** Wei, J., et al. (2022). *Chain-of-thought prompting elicits reasoning in large language models.* NeurIPS 2022.
+**Reference:** Wei, J., et al. (2022). _Chain-of-thought prompting elicits reasoning in large language models._ NeurIPS 2022.
 
 ### 5.4 Customer-Centric AI Design
 
 The concept of "human-centered AI" (Shneiderman, 2020) emphasizes designing AI systems that augment human understanding rather than replace human judgment. FairLens operationalizes this philosophy by positioning AI explanations as a tool to empower applicants, not just to inform bank officers.
 
-**Reference:** Shneiderman, B. (2020). *Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy.* International Journal of Human–Computer Interaction, 36(6), 495–504.
+**Reference:** Shneiderman, B. (2020). _Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy._ International Journal of Human–Computer Interaction, 36(6), 495–504.
 
 ---
 
@@ -142,7 +144,7 @@ FairLens follows a **frontend-first, API-integrated architecture** with three lo
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     FairLens Application                     │
+│                     FairLens Application                    │
 │                  (React 18 + Vite SPA)                      │
 ├─────────────────┬───────────────────────────────────────────┤
 │   APPLICANT     │           OFFICER DASHBOARD               │
@@ -155,17 +157,18 @@ FairLens follows a **frontend-first, API-integrated architecture** with three lo
 │  TheWhyVisualizer | BiasAlerter | AISecondOpinion           │
 ├─────────────────────────────────────────────────────────────┤
 │                   SERVICES LAYER                            │
-│  ┌──────────────────────┐  ┌──────────────────────────┐    │
+│  ┌──────────────────────┐  ┌───────────────────────────┐    │
 │  │    mockApi.js        │  │       gemini.js           │    │
 │  │  (ML Decision Engine)│  │  (Gemini 1.5 Flash API)   │    │
 │  │  - DTI Calculation   │  │  - XAI Translation        │    │
 │  │  - SHAP Factors      │  │  - Document Extraction    │    │
 │  │  - Health Score      │  │  - AI Second Opinion      │    │
 │  │  - Next Best Offer   │  │  - JSON Mode Responses    │    │
-│  └──────────────────────┘  └──────────────────────────┘    │
+│  └──────────────────────┘  └───────────────────────────┘    │
 ├─────────────────────────────────────────────────────────────┤
 │              CONTEXT & STATE MANAGEMENT                     │
 │           ThemeContext (Dark/Light Mode)                    │
+│           SettingsContext (Audit Rigor, Scoped Storage)     │
 │           React State (useState, useEffect)                 │
 ├─────────────────────────────────────────────────────────────┤
 │                   EXTERNAL APIs                             │
@@ -179,14 +182,18 @@ FairLens follows a **frontend-first, API-integrated architecture** with three lo
 User Input (Manual Form / Document Upload)
           │
           ▼
-  analyzeLoanFairness(formData)   ← mockApi.js
+   [Data Sanitization & Type Coercion]
+          │
+          ▼
+  analyzeLoanFairness(formData, xaiPrecision)   ← mockApi.js
   ┌─────────────────────────────┐
   │  1. Compute DTI Ratio       │
   │  2. Evaluate Capital Stress │
   │  3. Score Credit Index      │
-  │  4. Generate SHAP Factors   │
-  │  5. Calculate Health Score  │
-  │  6. Generate Next Best Offer│
+  │  4. Apply Rigor Thresholds  │
+  │  5. Generate SHAP Factors   │
+  │  6. Calculate Health Score  │
+  │  7. Generate Next Best Offer│
   └─────────────────────────────┘
           │
           ▼
@@ -209,18 +216,21 @@ User Input (Manual Form / Document Upload)
 ### 6.3 Data Flow – Officer Path
 
 ```
-Pending Case Queue (3 pre-loaded cases)
+Pending Case Queue (Database/Mock Users)
           │
           ▼
-  Case Selection → analyzeLoanFairness()
+  [Inline Triage Search & Filter]     ← Officer UI
+          │
+          ▼
+  Case Selection → analyzeLoanFairness(case, precision)
           │
           ▼
   ┌──────────────────────────────────────┐
   │  Technical Analysis Matrix           │
-  │  - 4 SHAP Features                  │
-  │  - Factor Importance Bars           │
-  │  - Bias Alert Signals               │
-  │  - Portfolio Fairness Score         │
+  │  - 4 SHAP Features                   │
+  │  - Factor Importance Bars            │
+  │  - Bias Alert Signals                │
+  │  - Portfolio Fairness Score          │
   └──────────────────────────────────────┘
           │
           ▼
@@ -232,19 +242,19 @@ Pending Case Queue (3 pre-loaded cases)
 
 ## 7. Technology Stack
 
-| Layer | Technology | Version | Purpose |
-|---|---|---|---|
-| UI Framework | React | 18.3.1 | Component-based UI |
-| Build Tool | Vite | 6.0.5 | Fast development & HMR |
-| Routing | React Router DOM | 7.13.1 | Client-side page navigation |
-| Charts | Recharts | 3.8.0 | Data visualizations |
-| Icons | Lucide React | 0.577.0 | SVG icon library |
-| AI / LLM | Google Generative AI | 0.24.1 | Gemini API client |
-| CSS Utilities | clsx + tailwind-merge | 2.1.1 / 3.5.0 | Class name utilities |
-| Styling | Vanilla CSS | — | Custom glassmorphic design |
-| Font | Outfit (Google Fonts) | — | Typography |
-| Runtime | Node.js | ≥18 | JavaScript runtime |
-| Package Manager | npm | — | Dependency management |
+| Layer           | Technology            | Version       | Purpose                     |
+| --------------- | --------------------- | ------------- | --------------------------- |
+| UI Framework    | React                 | 18.3.1        | Component-based UI          |
+| Build Tool      | Vite                  | 6.0.5         | Fast development & HMR      |
+| Routing         | React Router DOM      | 7.13.1        | Client-side page navigation |
+| Charts          | Recharts              | 3.8.0         | Data visualizations         |
+| Icons           | Lucide React          | 0.577.0       | SVG icon library            |
+| AI / LLM        | Google Generative AI  | 0.24.1        | Gemini API client           |
+| CSS Utilities   | clsx + tailwind-merge | 2.1.1 / 3.5.0 | Class name utilities        |
+| Styling         | Vanilla CSS           | —             | Custom glassmorphic design  |
+| Font            | Outfit (Google Fonts) | —             | Typography                  |
+| Runtime         | Node.js               | ≥18           | JavaScript runtime          |
+| Package Manager | npm                   | —             | Dependency management       |
 
 ### 7.1 Why Vite over Create React App?
 
@@ -253,6 +263,7 @@ Vite uses native ES module imports during development, achieving **Hot Module Re
 ### 7.2 Why Vanilla CSS over Tailwind?
 
 While Tailwind is bundled as a dependency, the design system was implemented in Vanilla CSS using **CSS Custom Properties (variables)** for the full glassmorphic design system. This provides:
+
 - Complete design control without utility-class overrides
 - Easier theming via `--variable` changes in `:root` and `.light-theme`
 - Cleaner component code free from long class strings
@@ -260,6 +271,7 @@ While Tailwind is bundled as a dependency, the design system was implemented in 
 ### 7.3 Why Google Gemini over OpenAI GPT?
 
 Gemini 1.5 Flash was selected for its:
+
 - **Multimodal capability** — can read document images directly
 - **Structured output mode** (JSON schema enforcement) — critical for reliable API responses
 - **Generous free tier** for prototyping
@@ -286,6 +298,7 @@ The project followed an **iterative, feature-driven development** methodology:
 The mock ML engine uses a **rule-based ensemble** that approximates a trained Random Forest/XGBoost model. The four primary features evaluated are:
 
 #### Feature 1: Debt-to-Income (DTI) Ratio
+
 ```
 DTI = totalDebt / income
 Approved threshold: DTI < 0.45
@@ -296,6 +309,7 @@ SHAP contribution:
 ```
 
 #### Feature 2: Capital Stress (Loan Size)
+
 ```
 If loanAmount > 2,000,000:
   → Trigger high capital stress
@@ -303,6 +317,7 @@ If loanAmount > 2,000,000:
 ```
 
 #### Feature 3: Income-to-Loan Ratio
+
 ```
 Ratio = loanAmount / income
 If ratio > 10:
@@ -311,6 +326,7 @@ If ratio > 10:
 ```
 
 #### Feature 4: Credit Index
+
 ```
 If creditScore < 640  → -0.35 (negative)
 If creditScore > 780  → +0.25 (positive boost)
@@ -318,6 +334,7 @@ Otherwise             → Not a primary factor
 ```
 
 #### Final Decision Logic
+
 ```
 Approved = (DTI < 0.45) AND (income/loan ratio ≤ 10) AND (creditScore ≥ 640)
 
@@ -415,6 +432,7 @@ style={{ transform: `rotate(${needleAngle}deg)`,
 ```
 
 Below the gauge, SHAP factor bars are rendered with conditional coloring:
+
 - Green (`var(--success)`) for positive SHAP values → factors that helped approval
 - Red (`var(--danger)`) for negative SHAP values → factors that hurt approval
 
@@ -427,7 +445,7 @@ const [simData, setSimData] = useState(formData);
 // On each slider change:
 const handleSimChange = (newData) => {
   const newResults = analyzeLoanFairness(newData);
-  setSimResults(newResults);  // Instantly re-renders probability
+  setSimResults(newResults); // Instantly re-renders probability
 };
 ```
 
@@ -437,9 +455,9 @@ This creates a real-time "what-if" simulator with zero latency since the entire 
 
 ```jsx
 // Detects OS preference on first load
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 const [theme, setTheme] = useState(
-  localStorage.getItem('theme') || (prefersDark.matches ? 'dark' : 'light')
+  localStorage.getItem("theme") || (prefersDark.matches ? "dark" : "light"),
 );
 // Applies 'light-theme' class to document.documentElement
 // CSS variables redefine entire color palette under .light-theme {}
@@ -452,19 +470,19 @@ The glassmorphic design system is built on CSS Custom Properties:
 ```css
 :root {
   /* Brand Colors */
-  --primary:   #10b981;  /* Neon Green  – trust, approval */
-  --secondary: #0ea5e9;  /* Sky Blue    – information */
-  --danger:    #ef4444;  /* Red         – rejection, warnings */
-  --warning:   #f59e0b;  /* Orange      – caution */
+  --primary: #10b981; /* Neon Green  – trust, approval */
+  --secondary: #0ea5e9; /* Sky Blue    – information */
+  --danger: #ef4444; /* Red         – rejection, warnings */
+  --warning: #f59e0b; /* Orange      – caution */
 
   /* Dark Theme Backgrounds */
-  --bg-primary:    #0a0f1e;
-  --bg-secondary:  #111827;
-  --bg-card:       rgba(17, 24, 39, 0.8);
+  --bg-primary: #0a0f1e;
+  --bg-secondary: #111827;
+  --bg-card: rgba(17, 24, 39, 0.8);
 
   /* Glassmorphism */
-  --border-glass:  rgba(255, 255, 255, 0.08);
-  --glass-blur:    blur(20px);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(20px);
 }
 
 .glass-panel {
@@ -481,39 +499,39 @@ The glassmorphic design system is built on CSS Custom Properties:
 
 ### 10.1 Applicant Dashboard Features
 
-| # | Feature | Description |
-|---|---|---|
-| 1 | **Dual Input Paths** | Choose between manual form entry or drag-and-drop document upload |
-| 2 | **AI Document Processing** | Upload bank statements / salary slips; Gemini extracts financial fields automatically |
-| 3 | **Approval Probability Gauge** | Semi-circular SVG gauge with animated needle showing 0–100% approval probability |
-| 4 | **SHAP Factor Visualization** | Horizontal bars showing which factors helped or hurt the decision |
-| 5 | **Gemini-Powered Explanation** | Plain-English, empathetic explanation of the AI decision |
-| 6 | **Action Plan** | 3–5 prioritized steps to improve approval chances |
-| 7 | **Financial Health Score** | Composite 0–100 score across credit, income, and debt dimensions |
-| 8 | **Next Best Offer** | If rejected, suggests the maximum loan amount that would likely be approved |
-| 9 | **Real-Time Simulator** | Sliders for Income, Loan Amount, and Credit Score with instant probability recalculation |
-| 10 | **Fairness Badge** | Confirms "No bias detected in Age/Gender" for every decision |
+| #   | Feature                        | Description                                                                              |
+| --- | ------------------------------ | ---------------------------------------------------------------------------------------- |
+| 1   | **Dual Input Paths**           | Choose between manual form entry or drag-and-drop document upload                        |
+| 2   | **AI Document Processing**     | Upload bank statements / salary slips; Gemini extracts financial fields automatically    |
+| 3   | **Approval Probability Gauge** | Semi-circular SVG gauge with animated needle showing 0–100% approval probability         |
+| 4   | **SHAP Factor Visualization**  | Horizontal bars showing which factors helped or hurt the decision                        |
+| 5   | **Gemini-Powered Explanation** | Plain-English, empathetic explanation of the AI decision                                 |
+| 6   | **Action Plan**                | 3–5 prioritized steps to improve approval chances                                        |
+| 7   | **Financial Health Score**     | Composite 0–100 score across credit, income, and debt dimensions                         |
+| 8   | **Next Best Offer**            | If rejected, suggests the maximum loan amount that would likely be approved              |
+| 9   | **Real-Time Simulator**        | Sliders for Income, Loan Amount, and Credit Score with instant probability recalculation |
+| 10  | **Fairness Badge**             | Confirms "No bias detected in Age/Gender" for every decision                             |
 
 ### 10.2 Officer Dashboard Features
 
-| # | Feature | Description |
-|---|---|---|
-| 1 | **Pending Case Queue** | List of applicants awaiting review with approve/reject status |
-| 2 | **Technical SHAP Matrix** | Detailed 4-factor SHAP analysis with technical metrics |
-| 3 | **Bias Alert System** | Automated signals when demographic patterns are detected |
-| 4 | **Portfolio Fairness Score** | Aggregate fairness metric across all pending decisions |
-| 5 | **AI Second Opinion** | Gemini-powered chatbot for officers to ask questions about model behavior |
-| 6 | **Authorization Controls** | Approve/Reject buttons with audit trail |
+| #   | Feature                      | Description                                                               |
+| --- | ---------------------------- | ------------------------------------------------------------------------- |
+| 1   | **Pending Case Queue**       | List of applicants awaiting review with approve/reject status             |
+| 2   | **Technical SHAP Matrix**    | Detailed 4-factor SHAP analysis with technical metrics                    |
+| 3   | **Bias Alert System**        | Automated signals when demographic patterns are detected                  |
+| 4   | **Portfolio Fairness Score** | Aggregate fairness metric across all pending decisions                    |
+| 5   | **AI Second Opinion**        | Gemini-powered chatbot for officers to ask questions about model behavior |
+| 6   | **Authorization Controls**   | Approve/Reject buttons with audit trail                                   |
 
 ### 10.3 Application-Wide Features
 
-| # | Feature | Description |
-|---|---|---|
-| 1 | **Dark / Light Theme** | System-aware theme with manual toggle, persisted to localStorage |
-| 2 | **Glassmorphic UI** | Semi-transparent cards with backdrop blur throughout |
-| 3 | **Responsive Layout** | 80px icon sidebar + fluid main content grid |
-| 4 | **Animation System** | fadeInUp entrance animations for all cards and panels |
-| 5 | **Indian Currency Formatting** | All monetary values displayed in ₹ (Indian Rupee) format |
+| #   | Feature                        | Description                                                      |
+| --- | ------------------------------ | ---------------------------------------------------------------- |
+| 1   | **Dark / Light Theme**         | System-aware theme with manual toggle, persisted to localStorage |
+| 2   | **Glassmorphic UI**            | Semi-transparent cards with backdrop blur throughout             |
+| 3   | **Responsive Layout**          | 80px icon sidebar + fluid main content grid                      |
+| 4   | **Animation System**           | fadeInUp entrance animations for all cards and panels            |
+| 5   | **Indian Currency Formatting** | All monetary values displayed in ₹ (Indian Rupee) format         |
 
 ---
 
@@ -569,19 +587,23 @@ FairLens adopts a **dual-audience design philosophy**:
 
 ```javascript
 // src/services/gemini.js
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold }
-  from "@google/generative-ai";
+import {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
-  generationConfig: { responseMimeType: "application/json" }
+  generationConfig: { responseMimeType: "application/json" },
 });
 ```
 
 ### 12.2 XAI Translation Prompt Design
 
 The Gemini prompt is carefully engineered to produce:
+
 1. A warm, empathetic explanation (no jargon)
 2. Rewritten action steps in accessible language
 3. Structured JSON output for reliable parsing
@@ -612,7 +634,7 @@ Return JSON: { income, totalDebt, loanAmount, creditScore,
 
 const result = await model.generateContent([
   { inlineData: { mimeType: "image/jpeg", data: base64Image } },
-  prompt
+  prompt,
 ]);
 ```
 
@@ -636,18 +658,18 @@ Gemini: "Marcus Miller's case shows a higher DTI ratio relative to
 
 ### 13.1 Manual Test Cases
 
-| Test Case | Input | Expected Output | Result |
-|---|---|---|---|
-| High Income, Low Debt | Income: ₹80,000 / Debt: ₹5,000 / Score: 750 | Approved ~92% | ✅ Pass |
-| Low Income, High Debt | Income: ₹15,000 / Debt: ₹12,000 / Score: 620 | Rejected ~18% | ✅ Pass |
-| Borderline Case | Income: ₹40,000 / Debt: ₹15,000 / Score: 680 | ~55% (pending) | ✅ Pass |
-| Very Large Loan | Income: ₹50,000 / Loan: ₹3,000,000 | Capital stress flag | ✅ Pass |
-| Credit Score Below Minimum | Any / Score: 580 | Rejected, credit factor | ✅ Pass |
-| Simulator: Increase Income | Slide income +₹30,000 | Probability increases | ✅ Pass |
-| Document Upload Flow | Drop image file | Extraction progress + prefill | ✅ Pass |
-| Theme Toggle | Click sun/moon icon | UI recolors instantly | ✅ Pass |
-| Gemini API (live key) | Valid factors | JSON explanation returned | ✅ Pass |
-| Gemini Fallback (no key) | No API key | Default message shown | ✅ Pass |
+| Test Case                  | Input                                        | Expected Output               | Result  |
+| -------------------------- | -------------------------------------------- | ----------------------------- | ------- |
+| High Income, Low Debt      | Income: ₹80,000 / Debt: ₹5,000 / Score: 750  | Approved ~92%                 | ✅ Pass |
+| Low Income, High Debt      | Income: ₹15,000 / Debt: ₹12,000 / Score: 620 | Rejected ~18%                 | ✅ Pass |
+| Borderline Case            | Income: ₹40,000 / Debt: ₹15,000 / Score: 680 | ~55% (pending)                | ✅ Pass |
+| Very Large Loan            | Income: ₹50,000 / Loan: ₹3,000,000           | Capital stress flag           | ✅ Pass |
+| Credit Score Below Minimum | Any / Score: 580                             | Rejected, credit factor       | ✅ Pass |
+| Simulator: Increase Income | Slide income +₹30,000                        | Probability increases         | ✅ Pass |
+| Document Upload Flow       | Drop image file                              | Extraction progress + prefill | ✅ Pass |
+| Theme Toggle               | Click sun/moon icon                          | UI recolors instantly         | ✅ Pass |
+| Gemini API (live key)      | Valid factors                                | JSON explanation returned     | ✅ Pass |
+| Gemini Fallback (no key)   | No API key                                   | Default message shown         | ✅ Pass |
 
 ### 13.2 Edge Case Handling
 
@@ -659,6 +681,7 @@ Gemini: "Marcus Miller's case shows a higher DTI ratio relative to
 ### 13.3 Browser Compatibility
 
 Tested and verified on:
+
 - Google Chrome 120+
 - Mozilla Firefox 121+
 - Microsoft Edge 120+
@@ -674,22 +697,22 @@ FairLens successfully demonstrates that:
 
 1. **XAI is achievable without a deployed ML backend.** The mock engine produces statistically consistent, interpretable results that accurately reflect real-world credit risk logic (DTI, credit score, income adequacy).
 
-2. **LLM-powered translation significantly improves comprehension.** The Gemini layer converts raw factor values like "DTI: -0.65" into: *"Your monthly debt payments are consuming more than 45% of your income, which is the main reason for today's decision. Reducing your debt by ₹8,000/month would significantly improve your application."*
+2. **LLM-powered translation significantly improves comprehension.** The Gemini layer converts raw factor values like "DTI: -0.65" into: _"Your monthly debt payments are consuming more than 45% of your income, which is the main reason for today's decision. Reducing your debt by ₹8,000/month would significantly improve your application."_
 
-3. **The real-time simulator encourages engagement.** By allowing applicants to explore counterfactuals, the platform shifts the emotional framing from *rejection* to *a path toward approval* — a key UX innovation.
+3. **The real-time simulator encourages engagement.** By allowing applicants to explore counterfactuals, the platform shifts the emotional framing from _rejection_ to _a path toward approval_ — a key UX innovation.
 
 4. **Dual-interface design is validated.** The technical depth needed by officers (SHAP values, bias alerts, portfolio metrics) would overwhelm applicants, and the empathetic language designed for applicants is insufficient for officer audit requirements. Separating these concerns into two purpose-built interfaces proves effective.
 
 ### 14.2 Performance Metrics
 
-| Metric | Value |
-|---|---|
-| Application Load Time (dev) | < 200ms (Vite HMR) |
-| Decision Computation Time | < 5ms (synchronous JS) |
-| Gemini API Response Time | 1.2–2.8 seconds |
-| Bundle Size (production build) | ~450KB gzipped |
-| Lighthouse Performance Score | 94/100 |
-| Lighthouse Accessibility Score | 88/100 |
+| Metric                         | Value                  |
+| ------------------------------ | ---------------------- |
+| Application Load Time (dev)    | < 200ms (Vite HMR)     |
+| Decision Computation Time      | < 5ms (synchronous JS) |
+| Gemini API Response Time       | 1.2–2.8 seconds        |
+| Bundle Size (production build) | ~450KB gzipped         |
+| Lighthouse Performance Score   | 94/100                 |
+| Lighthouse Accessibility Score | 88/100                 |
 
 ### 14.3 Limitations of Current Prototype
 
@@ -748,32 +771,38 @@ Most importantly, FairLens represents a shift in philosophical framing: instead 
 The following enhancements are planned for future development cycles:
 
 ### 17.1 Backend Integration
+
 - Deploy a real Random Forest / XGBoost model via a Python FastAPI or Node.js Express backend
 - Serve SHAP values computed by the `shap` Python library for true explainability
 - Implement a PostgreSQL database for loan application storage and audit trails
 
 ### 17.2 Authentication & Multi-tenancy
+
 - Role-based access control (Applicant / Bank Officer / Admin)
 - JWT-based session management
 - Multi-bank support with isolated data namespaces
 
 ### 17.3 Advanced AI Features
+
 - Full Gemini multimodal document processing (tax returns, salary slips, bank statements)
 - Multi-lingual support via Gemini translation (Hindi, Tamil, Bengali, etc.)
 - AI-driven financial coaching chatbot for long-term applicant guidance
 - Life Event Simulator (marriage, job change, medical emergency impact analysis)
 
 ### 17.4 Fairness Auditing Enhancements
+
 - Statistical disparity impact analysis (demographic parity, equalized odds)
 - Historical decision trend analysis across demographic segments
 - Automated regulatory compliance reports (RBI fair lending guidelines)
 
 ### 17.5 Mobile Application
+
 - React Native port for applicant-facing features
 - Push notifications for application status updates
 - Biometric authentication for document submission
 
 ### 17.6 PDF Report Generation
+
 - Auto-generate a personalized "Your Loan Assessment Report" PDF
 - Include SHAP chart, action plan, and financial health timeline
 - Downloadable for applicant records
@@ -782,29 +811,29 @@ The following enhancements are planned for future development cycles:
 
 ## 18. References
 
-1. Lundberg, S. M., & Lee, S.-I. (2017). *A unified approach to interpreting model predictions.* Advances in Neural Information Processing Systems, 30, 4765–4774.
+1. Lundberg, S. M., & Lee, S.-I. (2017). _A unified approach to interpreting model predictions._ Advances in Neural Information Processing Systems, 30, 4765–4774.
 
-2. Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). *"Why should I trust you?": Explaining the predictions of any classifier.* Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 1135–1144.
+2. Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). _"Why should I trust you?": Explaining the predictions of any classifier._ Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 1135–1144.
 
-3. Barocas, S., Hardt, M., & Narayanan, A. (2019). *Fairness and Machine Learning: Limitations and Opportunities.* MIT Press. Available at: fairmlbook.org.
+3. Barocas, S., Hardt, M., & Narayanan, A. (2019). _Fairness and Machine Learning: Limitations and Opportunities._ MIT Press. Available at: fairmlbook.org.
 
-4. Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q. V., & Zhou, D. (2022). *Chain-of-thought prompting elicits reasoning in large language models.* Advances in Neural Information Processing Systems, 35, 24824–24837.
+4. Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q. V., & Zhou, D. (2022). _Chain-of-thought prompting elicits reasoning in large language models._ Advances in Neural Information Processing Systems, 35, 24824–24837.
 
-5. Shneiderman, B. (2020). *Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy.* International Journal of Human–Computer Interaction, 36(6), 495–504.
+5. Shneiderman, B. (2020). _Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy._ International Journal of Human–Computer Interaction, 36(6), 495–504.
 
-6. Doshi-Velez, F., & Kim, B. (2017). *Towards a rigorous science of interpretable machine learning.* arXiv preprint arXiv:1702.08608.
+6. Doshi-Velez, F., & Kim, B. (2017). _Towards a rigorous science of interpretable machine learning._ arXiv preprint arXiv:1702.08608.
 
-7. Mehrabi, N., Morstatter, F., Saxena, N., Lerman, K., & Galstyan, A. (2021). *A survey on bias and fairness in machine learning.* ACM Computing Surveys (CSUR), 54(6), 1–35.
+7. Mehrabi, N., Morstatter, F., Saxena, N., Lerman, K., & Galstyan, A. (2021). _A survey on bias and fairness in machine learning._ ACM Computing Surveys (CSUR), 54(6), 1–35.
 
-8. React Documentation. (2024). *React 18 – New Features.* Retrieved from reactjs.org.
+8. React Documentation. (2024). _React 18 – New Features._ Retrieved from reactjs.org.
 
-9. Vite Documentation. (2024). *Vite – Next Generation Frontend Tooling.* Retrieved from vitejs.dev.
+9. Vite Documentation. (2024). _Vite – Next Generation Frontend Tooling._ Retrieved from vitejs.dev.
 
-10. Google AI. (2024). *Gemini API Documentation.* Retrieved from ai.google.dev.
+10. Google AI. (2024). _Gemini API Documentation._ Retrieved from ai.google.dev.
 
-11. Reserve Bank of India. (2022). *Guidelines on Fair Practices Code for Lenders.* RBI/2022-23/04.
+11. Reserve Bank of India. (2022). _Guidelines on Fair Practices Code for Lenders._ RBI/2022-23/04.
 
-12. European Union. (2016). *General Data Protection Regulation (GDPR), Article 22: Automated individual decision-making, including profiling.* Official Journal of the European Union, L 119/1.
+12. European Union. (2016). _General Data Protection Regulation (GDPR), Article 22: Automated individual decision-making, including profiling._ Official Journal of the European Union, L 119/1.
 
 ---
 
@@ -813,11 +842,13 @@ The following enhancements are planned for future development cycles:
 ### Appendix A: Environment Setup Instructions
 
 **Prerequisites:**
+
 - Node.js ≥ 18.0.0
 - npm ≥ 9.0.0
 - A Google Gemini API key (free tier available at aistudio.google.com)
 
 **Installation:**
+
 ```bash
 # 1. Clone / navigate to project directory
 cd "Customer-Centric XAI Loan Platform"
@@ -837,6 +868,7 @@ npm run dev
 ```
 
 **Production Build:**
+
 ```bash
 npm run build      # Outputs to /dist
 npm run preview    # Preview production build locally
@@ -849,12 +881,13 @@ npm run preview    # Preview production build locally
 #### `analyzeLoanFairness(formData)` — mockApi.js
 
 **Input:**
+
 ```typescript
 interface FormData {
-  income: number;          // Monthly income in ₹
-  totalDebt: number;       // Total monthly debt obligations in ₹
-  loanAmount: number;      // Requested loan amount in ₹
-  creditScore: number;     // Credit score (300–900)
+  income: number; // Monthly income in ₹
+  totalDebt: number; // Total monthly debt obligations in ₹
+  loanAmount: number; // Requested loan amount in ₹
+  creditScore: number; // Credit score (300–900)
   age?: number;
   gender?: string;
   employmentStatus?: string;
@@ -863,19 +896,20 @@ interface FormData {
 ```
 
 **Output:**
+
 ```typescript
 interface LoanResult {
   approved: boolean;
-  probability: number;      // 5–98
+  probability: number; // 5–98
   factors: Array<{
     name: string;
-    value: number;          // SHAP value (-0.65 to +0.50)
+    value: number; // SHAP value (-0.65 to +0.50)
     description: string;
   }>;
   actionPlan: string[];
   nextBestOffer: number | null;
-  healthScore: number;      // 0–100
-  confidence: number;       // e.g., 0.94
+  healthScore: number; // 0–100
+  confidence: number; // e.g., 0.94
 }
 ```
 
@@ -886,10 +920,11 @@ interface LoanResult {
 **Input:** Array of SHAP factor objects + array of action steps
 
 **Output:**
+
 ```typescript
 interface GeminiExplanation {
-  explanation: string;        // 2-3 sentence plain-English summary
-  rewritten_steps: string[];  // Accessible rewrite of action plan
+  explanation: string; // 2-3 sentence plain-English summary
+  rewritten_steps: string[]; // Accessible rewrite of action plan
 }
 ```
 
@@ -898,6 +933,7 @@ interface GeminiExplanation {
 ### Appendix C: Sample Test Data
 
 **Approved Case – Sarah Chen**
+
 ```json
 {
   "age": 32,
@@ -910,9 +946,11 @@ interface GeminiExplanation {
   "tenureMonths": 60
 }
 ```
+
 Expected: Approved ~89%, Health Score 81
 
 **Rejected Case – Marcus Miller**
+
 ```json
 {
   "age": 45,
@@ -925,9 +963,11 @@ Expected: Approved ~89%, Health Score 81
   "tenureMonths": 36
 }
 ```
+
 Expected: Rejected ~22%, Primary barrier: DTI ratio
 
 **Borderline Case – Priya Patel**
+
 ```json
 {
   "age": 28,
@@ -940,6 +980,7 @@ Expected: Rejected ~22%, Primary barrier: DTI ratio
   "tenureMonths": 48
 }
 ```
+
 Expected: ~61% (marginal approval), DTI mild negative, Credit mild positive
 
 ---
@@ -949,6 +990,7 @@ Expected: ~61% (marginal approval), DTI mild negative, Credit mild positive
 (See `Docs/architecture_flow.md` for the full interactive Mermaid flowchart)
 
 The architecture diagram shows 4 sequential phases:
+
 1. **Data Intake & Parsing** – Manual form + Document upload (Gemini Multimodal)
 2. **AI Processing Engine** – Decision model + SHAP + Fairness Auditor
 3. **Applicant Dashboard** – Gemini translation + Simulator + Action Plan
@@ -956,7 +998,7 @@ The architecture diagram shows 4 sequential phases:
 
 ---
 
-*End of Report*
+_End of Report_
 
 ---
 

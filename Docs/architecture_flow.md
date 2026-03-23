@@ -36,6 +36,10 @@ flowchart TD
         direction TB
         Submit{"Submit"}
         
+        %% Pipeline Stages
+        Clean[("🧹 Data Sanitization\n(Type Coercion)")]
+        Settings(("⚙️ SettingsContext\n[Audit Rigor: Fast/Std/Ext]"))
+        
         %% Models
         Model["⚙️ Multi-Model Ensemble\n[Random Forest, XGBoost]"]
         Auditor["⚖️ Fairness & Bias Auditor\n[Checks Age, Gender, Ethnicity]"]
@@ -44,8 +48,11 @@ flowchart TD
         Decision{"Loan Decision"}
         XAI["🔍 XAI Engine (SHAP / LIME)\n[Feature Importance Extractor]"]
         
-        Submit --> Model
-        Submit --> Auditor
+        Submit --> Clean
+        Clean --> Model
+        Clean --> Auditor
+        Settings -.->|"Applies Rigor Thresholds"| Model
+        
         Model -->|Predicts Probability| Decision
         Decision -->|Approval > Threshold| AppFlow(["✅ Success: Proceed to Terms"])
         Decision -->|Rejection < Threshold| XAI
@@ -86,18 +93,28 @@ flowchart TD
     %% -----------------------------------------
     subgraph Phase4["4. Bank Officer Dashboard"]
         direction TB
-        %% UI
+        %% Setup & Tools
+        Queue[("📋 Pending Queue\n(Database / Mock Users)")]
+        Triage{"🔎 Inline Triage Search\n(Filter by Name/ID)"}
+        
+        %% Analysis UI
         TechPanel[/"🛠️ Technical Overview\n(Confidence Scores, SHAP Weights)"/]
         BiasCheck{"Auditor Flag?"}
         
-        %% Alerts & Comms
+        %% Actions & Alerts
+        Reassign(("🔄 Reassign Officer"))
         Alert>"⚠️ Bias Alert Notification!"]
         OfficerChat{{"🤖 Second Opinion Chat\n(Query Gemini regarding weights)"}}
         Portfolio["📈 Portfolio-Level Bias Dashboard"]
         
+        Queue --> Triage
+        Triage -->|Case Selection| TechPanel
+        Queue --> Reassign
+        
         Model -.->|Raw Probabilities| TechPanel
         Decision -.->|Outcome| TechPanel
         XAI -.->|Raw Feature Weights| TechPanel
+        Settings -.->|"Current Pipeline Rigor"| TechPanel
         
         Auditor --> BiasCheck
         BiasCheck -->|Flagged| Alert
